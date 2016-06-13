@@ -46,7 +46,7 @@ def calc_euclidean_distance(first, second):
     differences = [fi - si for fi,
                    si in zip(first, second)]
     squared_differences = [difference ** 2 for difference in differences]
-    distance = math.sqrt(sum(squared_differences))
+    distance = sum(squared_differences)
     return 1 / (1 + distance)
 
 
@@ -54,4 +54,14 @@ def calc_pearson_coefficient(first, second):
     if not first and not second:
         return 0
 
-    return calc_covariance(first, second) / (calc_standard_deviation(first) * calc_standard_deviation(second))
+    return calc_covariance(first, second) / calc_standard_deviation(first) / calc_standard_deviation(second)
+
+
+def jaccard_distance(first, second):
+    if not first and not second:
+        return 1
+
+    intersection = sum([1 if fi == si else 0 for fi, si in zip(first, second)])
+    union = sum([1 if fi == si else 2 for fi, si in zip(first, second)])
+
+    return 1 - intersection / union
